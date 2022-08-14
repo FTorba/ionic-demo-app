@@ -1,0 +1,17 @@
+<navigation></navigation>
+
+<ion-content fullscreen>
+  <ion-item mode="ios" *ngFor="let product of products" button (click)="goToProductPage('/product-detail/' + product.sku, product)">
+    <ion-avatar slot="start">
+      <!-- <img loading="lazy" [src]="product.image"> -->
+    </ion-avatar>
+    <ion-label>
+      <ion-text>
+        <h3 [textContent]="product.name"></h3>
+      </ion-text>
+      <ion-text>
+        <p [textContent]="product.description"></p>
+      </ion-text>
+    </ion-label>
+  </ion-item>
+</ion-content>
