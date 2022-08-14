@@ -1,8 +1,11 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Search</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title [textContent]="config?.title"></ion-title>
   </ion-toolbar>
-  <ion-toolbar>
-    <ion-searchbar mode="ios" (ionChange)="searchValueChanged($event)" inputmode="search"></ion-searchbar>
+  <ion-toolbar *ngIf="config?.showSearchBar">
+    <ion-searchbar mode="ios" (ionChange)="searchValueChanged($event)" [value]="config?.previousSearchValue" inputmode="search"></ion-searchbar>
   </ion-toolbar>
 </ion-header>

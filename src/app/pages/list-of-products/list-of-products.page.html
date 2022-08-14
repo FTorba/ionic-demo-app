@@ -1,7 +1,7 @@
-<navigation></navigation>
+<navigation [config]="apiStorage.headerConfig"></navigation>
 
 <ion-content fullscreen>
-  <ion-item mode="ios" *ngFor="let product of products" button (click)="goToProductPage('/product-detail/' + product.sku, product)">
+  <ion-item mode="ios" *ngFor="let product of filteredProducts" button [routerLink]="'/product-detail/' + product.sku">
     <ion-avatar slot="start">
       <!-- <img loading="lazy" [src]="product.image"> -->
     </ion-avatar>
