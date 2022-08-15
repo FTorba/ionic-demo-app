@@ -13,6 +13,7 @@ import { NavigationConfig } from '../interfaces/NavigationConfig';
 export class ApiAndStorageService {
 
   public search$ = new Subject<string>();
+  public storageInitialization$ = new Subject<boolean>();
   public _storage: Storage | null = null;
   public headerConfig: NavigationConfig = null;
   public apiItems: ApiListItem[] = [];
@@ -31,14 +32,16 @@ export class ApiAndStorageService {
       // init storage instance
       this._storage = storageObj;
 
+      this.storageInitialization$.next(true);
+
       // get value of previuosly saved search work or sentence
       this.get('searchValue').then(value => {
         this.search$.next(value); 
       });
 
-      if (this.apiItems.length === 0) {
-        this.getApiItems();
-      }
+      // if (this.apiItems.length === 0) {
+        // this.getApiItems();
+      // }
     })
   }
 
@@ -47,10 +50,9 @@ export class ApiAndStorageService {
     return items.filter(item => item.name.toLowerCase().includes(keyword.toLowerCase()));
   }
 
-  public set(key: string, value: any) {
-    this._storage?.set(key, value).then(data => {
-      // console.log('set key', data);
-    });
+  public set(key: string, value: any): void {
+    console.log(key, 'set storage');
+    this._storage?.set(key, value);
   }
 
   public async get(key: string): Promise<any> {
@@ -63,20 +65,14 @@ export class ApiAndStorageService {
     return this.http.get(environment.listOfProductsPath);
   }
 
-  public getProductsBySku(sku: number): ApiListItem {
+  public getProductsBySku(items: Array<ApiListItem> = [], sku: number): ApiListItem {
     let item = {};
-    if (this.apiItems.length > 0) {
-      item = this.apiItems.filter(itemInstance => {itemInstance.sku === sku});
+    if (items.length > 0) {
+      console.log('sku', sku);
+      item = items.filter(itemInstance => {itemInstance.sku === sku});
     }
     return typeof item[0] !== 'undefined' ? item[0] : item;
   }
-
-  public getApiItems(): void {
-    this.get('api-data').then(items => {
-      this.apiItems = items;
-    });
-  }
-
 
   // ----------- Other methods -------------
 

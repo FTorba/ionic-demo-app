@@ -47,6 +47,7 @@ export class ListOfProductsPage implements OnInit {
     this.apiStorage.getProductsList().subscribe(
       (data: ApiListItem[]) => {
         this.products = [...data];
+        // TODO potenrially error. method could be called before storage initialized
         this.apiStorage.set('api-data', this.products);
         this.apiStorage.apiItems = this.products;
       },
